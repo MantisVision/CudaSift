@@ -74,7 +74,8 @@ install(FILES
   ${sources}
   cudaSiftD.cu
   CMakeLists.txt
-  Copyright.txt
+  # Copyright.txt
+  LICENSE
   DESTINATION .
 )
 install(FILES data/left.pgm data/righ.pgm
