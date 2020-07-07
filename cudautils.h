@@ -4,7 +4,7 @@
 #include <cstdio>
 #include <iostream>
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <intrin.h>
 #endif
 
@@ -90,7 +90,7 @@ public:
     beg_clock = getTSC(bits);
   }
   long long getTSC(int bits) {
-#ifdef WIN32
+#ifdef _WIN32
     return __rdtsc()/(1LL<<bits);
 #else
     unsigned int low, high;
