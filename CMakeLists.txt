@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(cudaSift)
+project(cudaSift CUDA)
 set(cudaSift_VERSION_MAJOR 2)
 set(cudaSift_VERSION_MINOR 0)
 set(cudaSift_VERSION_PATCH 0)
@@ -12,10 +12,10 @@ set(CPACK_GENERATOR "ZIP")
 include(CPack)
 
 find_package(OpenCV REQUIRED)
-find_package(CUDA)
-if (NOT CUDA_FOUND)
-  message(STATUS "CUDA not found. Project will not be built.")
-endif(NOT CUDA_FOUND)
+# find_package(CUDA)
+# if (NOT CUDA_FOUND)
+#   message(STATUS "CUDA not found. Project will not be built.")
+# endif(NOT CUDA_FOUND)
 
 if (WIN32)
   set(EXTRA_CXX_FLAGS "/DVERBOSE /D_CRT_SECURE_NO_WARNINGS ")
@@ -53,7 +53,11 @@ include_directories(
 
 #SET(CUDA_SEPARABLE_COMPILATION ON)
 
-cuda_add_executable(cudasift ${cuda_sources} ${sources} OPTIONS -arch=sm_35)
+add_library(cudasift SHARED
+  ${cuda_sources} ${sources}
+)
+
+# cuda_add_executable(cudasift ${cuda_sources} ${sources} OPTIONS -arch=sm_35)
 
 #cuda_add_executable(l2net l2netD.cu OPTIONS -arch=sm_35)
 
