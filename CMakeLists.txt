@@ -83,6 +83,7 @@ target_link_libraries(cudasift ${CUDA_cudadevrt_LIBRARY} ${OpenCV_LIBS})
 
 export(PACKAGE ${PROJECT_NAME})
  
+
 install(FILES 
   ${cuda_sources} 
   ${sources}
@@ -108,11 +109,30 @@ install(FILES data/left.pgm data/righ.pgm
   DESTINATION data
 )
 
-# FIXME: Danny 08-07-2020 add config (Debug/Release)
-# install(FILES ${CMAKE_BINARY_DIR}/$<CONFIG>/cudasift.lib
-install(FILES ${CMAKE_BINARY_DIR}/Release/cudasift.lib
-  DESTINATION lib
+set(MV_BUILD_CONFIGURATIONS
+    Release
+    Debug
+    # RelWithDebInfo
+    # MiniSizeRel
 )
+
+
+foreach( build_config ${MV_BUILD_CONFIGURATIONS} )
+
+  install(
+    TARGETS cudasift
+    CONFIGURATIONS ${build_config}
+    LIBRARY DESTINATION lib/${build_config}/
+    ARCHIVE DESTINATION lib/${build_config}/
+    RUNTIME DESTINATION lib/${build_config}/
+  COMPONENT library)
+
+  # # FIXME: Danny 08-07-2020 add config (Debug/Release)
+  # # install(FILES ${CMAKE_BINARY_DIR}/$<CONFIG>/cudasift.lib
+  # install(FILES ${CMAKE_BINARY_DIR}/Release/cudasift.lib
+  #   DESTINATION lib
+  # )
+endforeach()
 
 # TODO: Danny 08-07-2020 add CudaSiftConfig.cmake inside CudaSift
 # # cmake-modules
